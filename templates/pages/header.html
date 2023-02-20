@@ -1,0 +1,61 @@
+{% load static %}
+<header class="header">
+    <div class="grid">
+        <nav class="header__navbar">
+            <div class="header__navbar-left">
+                <div class="header__navbar-logo">
+                    <a href="{% url 'home_chat:home' %}" class="header__navbar-logo-link">
+                        <img class="header__navbar-logo-img" src="{% static 'img/simplechat-logo.png' %}" alt="Logo web">
+                    </a>
+                </div>
+                <ul class="header__navbar-list header__navbar-menu">
+                    <li class="header__navbar-item">
+                        <a href="" class="header__navbar-item-link">
+                            <i class="header__navbar-item-logo fa-solid fa-message"></i>
+                            Chat
+                        </a>
+                    </li>
+                    <li class="header__navbar-item">
+                        <a href="#" class="header__navbar-item-link">
+                            <i class="header__navbar-item-logo fa-solid fa-address-book"></i>
+                            Contact
+                        </a>
+                    </li>
+                    <li class="header__navbar-item">
+                        <a href="#" class="header__navbar-item-link">
+                            <i class="header__navbar-item-logo fa-solid fa-bell"></i>
+                            Notification
+                        </a>
+                    </li>
+                    <li class="header__navbar-item">
+                        <a href="#" class="header__navbar-item-link">
+                            <i class="header__navbar-item-logo fa-solid fa-bars"></i>
+                            Setting
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="header__navbar-right">
+                <ul class="header__navbar-list">
+                    {% if user.is_authenticated %}
+                        <div class="header__navbar-profile">
+                            <li class="header__navbar-item">
+                                <img class="header__navbar-item-link header__navbar-profile-avatar" src="#" alt="Avatar">
+                                <a href="" class="header__navbar-item-link header__navbar-profile-username">User Name</a>
+                                <p class="header__navbar-profile-status">Active</p>
+                            </li>
+                        </div>
+                    {% else %}
+                        <li class="header__navbar-item">
+                            <a href="" class="header__navbar-item-link header__navbar-signup">SignUp</a>
+                        </li>
+                        <li class="header__navbar-item">
+                            <a href="" class="header__navbar-item-link header__navbar-login">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</header>

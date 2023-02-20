@@ -21,4 +21,5 @@ urlpatterns = [
     path('accounts/', include('authenticate.urls')),
     path('message/', include('message.urls')),
     path('users/', include('user.urls')),
+    path('', include('homechat.urls')),
 ]

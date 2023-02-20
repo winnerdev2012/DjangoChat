@@ -1,36 +1,76 @@
 {% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+Login Chat
+{% endblock title %}
+
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}?version=1">
+    <style>
+        .container {
+            background-image: url("{% static 'img/bg.png' %}");
+        }
+    </style>
+{% endblock cssblock %}
+
 
 {% block content %}
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+<div class="container">
+    <div class="container-left">
+    </div>
+    <div class="container-right">
+        <div class="auth-form">
+            <div class="auth-form__logo">
+                <img class="auth-form__logo-img" src="{% static 'img/simplechat-logo.png' %}" alt="Logo chat">
+            </div>
+    
+            <div class="auth-form__header">
+                <h2 class="auth-form__heading">Welcome Back!</h2>
+                <p class="auth-form__description">Please login to chat, thank you.</p>
+            </div>
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
-
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
-
-{# Assumes you set up the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            <div class="auth-form__form">
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                        <div class="auth-form__msg">
+                            <strong>Error!</strong>Your username and password didn't match. Please try again.
+                        </div>
+                    {% endif %}
+                    <div class="auth-form__group">
+                        <!-- {{ form.username.label_tag }} -->
+                        {{ form.username|add_class:"auth-form__input"|attr:"placeholder: "}}
+                        <label for="{{ form.username.auto_id }}" class="auth-form__label">{{ form.username.label }}</label>
+                        <i class="fa-solid fa-user auth-form__icon"></i>
+                    </div>
+    
+                    <div class="auth-form__group">
+                        <!-- {{ form.password.label_tag }} -->
+                        {{ form.password|add_class:"auth-form__input"|attr:"placeholder: "}}
+                        <label for="{{ form.password.auto_id }}" class="auth-form__label">{{ form.password.label }}</label>
+                        <i class="fa-solid fa-key auth-form__icon"></i>
+                    </div>
+                    <div class="auth-form__reset-pass">
+                        <a class="auth-form__reset-pass-link" href="{% url 'authenticate:password_reset' %}">Lost password?</a>
+                    </div>
+                    <button class="btn btn--primary auth-form__submit-btn" type="submit" value="login">Login</button>
+                    <input type="hidden" name="next" value="{{ next }}">
+                </form>
+            </div>
+            <div class="auth-form__social">
+                <a href="" class="btn btn--with-icon">
+                    <img class="btn--icon-img" src="{% static 'img/ico-google.svg' %}" alt="LogoGoogle">
+                    <span class="btn--icon-text">Sign in with Google</span>
+                </a>
+            </div>
+            <div class="auth-form__signup-redirect">
+                <p class="auth-form__signup-text">Don't have an account yet?</p>
+                <a href="{% url 'authenticate:signup' %}" class="auth-form__signup-link">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

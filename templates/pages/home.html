@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Chat{% endblock title %}
+
+{% block header %}
+    {% include 'pages/header.html' %}
+{% endblock header %}
+
+{% block content %}
+
+<h1>Home page.</h1>
+<a href="{% url 'authenticate:logout' %}">Logout</a>
+
+
+{% endblock content %}
+

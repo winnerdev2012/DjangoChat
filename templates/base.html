@@ -1,13 +1,43 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Django Chat{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'fontawesomefree/css/all.min.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/normalize/normalize.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}?version=1">
+    {% block cssblock %}
+    {% endblock cssblock %}
+
 </head>
 <body>
     <main>
+        {% block header %}
+        {% endblock header %}
+
+        {% block navbar %}
+        {% endblock navbar %}
+
         {% block content %}
         {% endblock %}
+
+        {% block footer %}
+        {% endblock footer %}
+
+        <!-- Modal layout -->
+        <div class="modal">
+            <div class="modal__overlay"></div>
+            <div class="modal__body">
+                <div class="modal__inner"></div>
+            </div>
+        </div>
+
+        {% block jsblock %}
+        {% endblock jsblock %}    
     </main>
 </body>
 </html>
