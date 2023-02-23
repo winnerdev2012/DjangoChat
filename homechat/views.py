@@ -12,4 +12,4 @@ class HomeChatBaseView(LoginRequiredMixin, View):
 
 class HomeChatView(HomeChatBaseView):
     def get(self, request):
-        return render(request, 'pages/home.html')
+        return render(request, 'pages/main.html')
