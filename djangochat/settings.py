@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'homechat',
     'fontawesomefree',
     'widget_tweaks',
+    'friends',
     
     'django.contrib.admin',
     'django.contrib.auth',
