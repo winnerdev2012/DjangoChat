@@ -33,12 +33,12 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'user',
-    'message',
     'authenticate',
     'homechat',
     'fontawesomefree',
     'widget_tweaks',
     'friends',
+    'chatroom',
     
     'django.contrib.admin',
     'django.contrib.auth',
