@@ -29,13 +29,20 @@
         {% endblock footer %}
 
         <!-- Modal layout -->
-        <div class="modal">
+        <div class="modal" id="modal">
             <div class="modal__overlay"></div>
             <div class="modal__body">
-                <div class="modal__inner"></div>
+                <!-- <div class="modal__inner"> -->
+                    
+                    {% block modal_content %}
+                        
+                    {% endblock modal_content %}
+                        
+                <!-- </div> -->
             </div>
         </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         {% block jsblock %}
         {% endblock jsblock %}    
     </main>

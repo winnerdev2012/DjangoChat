@@ -43,7 +43,7 @@ class MessageAdmin(admin.ModelAdmin):
     list_filter = ['room', 'user', 'timestamp']
     list_display = ['room', 'user', 'message_body', 'timestamp']
     search_field = ['room__title', 'user__username', 'message_body']
-    readonly_field = ['id', 'user', 'timestamp']
+    readonly_fields = ['id', 'user', 'timestamp']
     
     show_full_result_count = False
     paginator = CachingPaginator

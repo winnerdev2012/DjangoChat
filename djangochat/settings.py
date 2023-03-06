@@ -34,7 +34,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'user',
     'authenticate',
-    'homechat',
     'fontawesomefree',
     'widget_tweaks',
     'friends',
@@ -147,5 +146,5 @@ AUTH_USER_MODEL = 'user.CustomUser'
 
 LOGIN_URL = "authenticate:login"
 
-LOGIN_REDIRECT_URL = 'home_chat:home'
-LOGOUT_REDIRECT_URL = "home_chat:home"
+LOGIN_REDIRECT_URL = 'chatroom:home'
+LOGOUT_REDIRECT_URL = "chatroom:home"

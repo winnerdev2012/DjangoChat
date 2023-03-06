@@ -4,7 +4,7 @@
         <nav class="header__navbar">
             <div class="header__navbar-left">
                 <div class="header__navbar-logo">
-                    <a href="{% url 'home_chat:home' %}" class="header__navbar-logo-link">
+                    <a href="{% url 'chatroom:home' %}" class="header__navbar-logo-link">
                         <img class="header__navbar-logo-img" src="{% static 'img/simplechat-logo.png' %}" alt="Logo web">
                     </a>
                 </div>
@@ -39,7 +39,7 @@
                 {% if user.is_authenticated %}
                     <img class="header__navbar-item-link header__navbar-profile-avatar" src="{% static 'img/avt-female.svg' %}" alt="Avatar">
                     <div class="header__navbar-profile">
-                        <a href="" class="header__navbar-item-link header__navbar-profile-username">User Name</a>
+                        <a href="" class="header__navbar-item-link header__navbar-profile-username">{{request.user.username}}</a>
                         <p class="header__navbar-profile-status">Active</p>
                     </div>
                 {% else %}

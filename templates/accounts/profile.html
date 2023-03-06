@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+Profile {{request.user.username}}
+{% endblock title %}
+
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}?version=1">
+    <style>
+        .container {
+            background-image: url("{% static 'img/bg.png' %}");
+        }
+    </style>
+{% endblock cssblock %}
+
+
+{% block content %}
+
+<div class="container-profile">
+    <div class="grid">
+        <div class="grid__row">
+            <div class="grid__col-3"></div>
+            <div class="grid__col-6">
+                <div class="profile">
+                    <img src="{% static 'img/avt-female.svg' %}" alt="" class="profile__img">
+                    <div class="profile__info">
+                        <p class="profile__info-username">{{ user_profile.username }}</p>
+                        <p class="profile__info-email">{{ user_auth_friend_list }}</p>
+                    </div>
+                    <div class="profile__action">
+                        <form class="profile__action" action="{% url 'friends:friend_action' user_profile.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            {% if RELATIONSHIP == 0 %}
+                                <button name="profile_action" value="edit_profile" class="btn btn--with-icon">
+                                    <i class=".btn--icon-img fa-solid fa-user-pen"></i>
+                                    <p class="btn--icon-text">Edit Profile</p> 
+                                </button>
+                             {% else %}
+                                <button name="profile_action" value="message" class="btn btn--with-icon">
+                                    <i class=".btn--icon-img fa-solid fa-message"></i>
+                                    <p class="btn--icon-text">Message</p>
+                                </button>
+                                {% if RELATIONSHIP == 2 %}
+                                    <button name="profile_action" value="add_friend" class="btn btn--with-icon">
+                                        <i class=".btn--icon-img fa-solid fa-user-plus"></i>
+                                        <p class="btn--icon-text">Add Friend</p> 
+                                    </button>
+                                {% elif RELATIONSHIP == 1 %}
+                                    <button name="profile_action" value="unfriend" class="btn btn--with-icon">
+                                        <i class=".btn--icon-img fa-solid fa-user-xmark"></i>
+                                        <p class="btn--icon-text">UnFriend</> 
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                        </form>                        
+                    </div>
+                    <div class="profile__extra">
+                        <a href="javascript:void(0);" class="profile__extra-link" id="friend_list_btn">
+                            <p class="profile__extra-link__count">
+                                {{user_auth_friend_list.count}}
+                            </p>
+                            <p class="profile__extra-link__title">
+                                Friends
+                            </p>
+                        </a>
+                        
+                        {% if RELATIONSHIP == 0  %}
+                            <a href="javascript:void(0);" class="profile__extra-link" id="request_list_btn">
+                                <p class="profile__extra-link__count">
+                                    {{user_auth_request_list.count}}
+                                </p>
+                                <p class="profile__extra-link__title">
+                                    Friends Request
+                                </p>
+                            </a> 
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="grid__col-3">
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock content %}
+
+{% block modal_content %}
+    <div class="extra-list">
+        <div class="extra-list__header">
+            <h3 class="extra-list__title">Request Friend</h3>
+            <span id="close_list_btn">x</span>
+        </div>
+        <div class="extra-list__body">
+            <ul class="extra-list__list">
+                
+                {% for request_friend in user_auth_request_list %}
+                <li class="extra-list__item" >
+                    <img src="{% static 'img/avt-female.svg' %}" alt="" class="extra-list__item-img">
+                    <h4 class="extra-list__item-username">{{ request_friend.sender.username }}</h4>
+                    <div class="extra-action">
+                        <button onclick="accept_friend_request('{{request_friend.pk }}')" id="accept_friend{{ request_friend.pk }}" class="btn extra-action__btn"><i class="fa-solid fa-circle-check"></i></button>
+                        <button class="btn extra-action__btn"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </div>
+                </li>
+                {% endfor %}
+                    
+            </ul>
+        </div>
+    </div>
+{% endblock modal_content %}
+
+
+{% block jsblock %}
+    <script src="{% static 'js/profile.js' %}"></script>
+    <script>
+        function accept_friend_request(request_id) {
+            var url = '{% url "friends:accept_friend" %}'
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {"request_id": request_id},
+                success: function (response) {
+                    // if not valid user, alert the user
+                    if(response["error"] != null){
+                        alert(response["error"]);
+                    }
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+        }
+    </script>
+{% endblock jsblock %}
+    

@@ -41,176 +41,167 @@
                     </div>
 
                     <ul class="chatmenu-list">
-                        <li class="chatmenu-item chatmenu-item--active">
-                            <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
-                            <div class="chatmenu-info">
-                                <h4 class="chatmenu-info__username">Usernameeeeee</h4>
-                                <p class="chatmenu-info__lastest">Lastes messssfffffffffffffffffffffffffffffff ffffffffffffffffffffffffffffffff</p>
-                            </div>
-                        </li>
-                        <li class="chatmenu-item">
-                            <img src="{% static 'img/avt-male.svg' %}" alt="" class="chatmenu-info__avatar">
-                            <div class="chatmenu-info">
-                                <h4 class="chatmenu-info__username">Usernameeeeee</h4>
-                                <p class="chatmenu-info__lastest">Lastes messss</p>
-                            </div>
-                        </li>
-                        <li class="chatmenu-item">
-                            <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
-                            <div class="chatmenu-info">
-                                <h4 class="chatmenu-info__username">Usernameeeeee</h4>
-                                <p class="chatmenu-info__lastest">Lastes messss</p>
-                            </div>
-                        </li>
+                        
+                        {% for friend in friend_list.friends.all %}
+                            <li class="chatmenu-item chatmenu-item--active">
+                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
+                                <div class="chatmenu-info">
+                                    <h4 class="chatmenu-info__username">{{ friend.username }}</h4>
+                                    <p class="chatmenu-info__lastest">Lastes f ffffffffffffffffffffffffffffffff</p>
+                                </div>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </nav>
             </div>
 
             <div class="grid__col-6 grid__max-height .grid__min-width">
                 <div class="box-chat">
-                    <div class="box-header">
-                        <div class="box-info">
-                            <img src="{% static 'img/avt-female.svg' %}" alt="" class="box-info__avatar">
-                            <div class="box-info__info">
-                                <h3 class="box-info__info-username">Username123</h3>
-                                <p class="box-info__info-status">5 min </p>
+                    {% if is_selected_room == True %}
+                        <div class="box-header">
+                            <div class="box-info">
+                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="box-info__avatar">
+                                <div class="box-info__info">
+                                    <h3 class="box-info__info-username">Username123</h3>
+                                    <p class="box-info__info-status">5 min </p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="box-menu">
-                            <a href="#" class="box-menu__link">
-                                <i class="box-menu__icon fa-solid fa-phone"></i>
-                            </a>
-                            <a href="#" class="box-menu__link">
-                                <i class="box-menu__icon fa-solid fa-video"></i>
-                            </a>
-                            <a href="#" class="box-menu__link">
-                                <i class="box-menu__icon fa-solid fa-circle-info"></i>
-                            </a>
+                            <div class="box-menu">
+                                <a href="#" class="box-menu__link">
+                                    <i class="box-menu__icon fa-solid fa-phone"></i>
+                                </a>
+                                <a href="#" class="box-menu__link">
+                                    <i class="box-menu__icon fa-solid fa-video"></i>
+                                </a>
+                                <a href="#" class="box-menu__link">
+                                    <i class="box-menu__icon fa-solid fa-circle-info"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                        <div class="chat-room">
+                            <div class="message-received">
+                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="message-received__avatar">
+                                <div class="message-box message-received__body">
+                                    <p class="message-content">hello xin chao cac ban received</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
 
-                    <div class="chat-room">
-                        <div class="message-received">
-                            <img src="{% static 'img/avt-female.svg' %}" alt="" class="message-received__avatar">
-                            <div class="message-box message-received__body">
-                                <p class="message-content">hello xin chao cac ban received</p>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
 
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
+                            </div>
+                            <div class="message-sent">
+                                <div class="message-box message-sent__body">
+                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
+                        <div class="chat-bar">
+                            <div class="chat-bar__media">
+                                <ul class="chat-bar__media-list">
+                                    <li class="chat-bar__media-item">
+                                        <i class="fa-solid fa-circle-plus"></i>
+                                    </li>
+                                    <li class="chat-bar__media-item">
+                                        <i class="fa-solid fa-image"></i>
+                                    </li>
+                                    <li class="chat-bar__media-item">
+                                        <i class="fa-solid fa-note-sticky"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="chat-bar__input">
+                                <input type="text" class="chat-bar__input-content" placeholder="Aa">
+                                <a href="#" class="chat-bar__input-icon">
+                                    <i class="fa-solid fa-face-smile"></i>
+                                </a>
+                            </div>
+                            <div class="chat-bar__send">
+                                <a class="btn btn-send">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                        <div class="message-sent">
-                            <div class="message-box message-sent__body">
-                                <p class="message-content">hello xin chao cac ban sent</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chat-bar">
-                        <div class="chat-bar__media">
-                            <ul class="chat-bar__media-list">
-                                <li class="chat-bar__media-item">
-                                    <i class="fa-solid fa-circle-plus"></i>
-                                </li>
-                                <li class="chat-bar__media-item">
-                                    <i class="fa-solid fa-image"></i>
-                                </li>
-                                <li class="chat-bar__media-item">
-                                    <i class="fa-solid fa-note-sticky"></i>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="chat-bar__input">
-                            <input type="text" class="chat-bar__input-content" placeholder="Aa">
-                            <a href="#" class="chat-bar__input-icon">
-                                <i class="fa-solid fa-face-smile"></i>
-                            </a>
-                        </div>
-                        <div class="chat-bar__send">
-                            <a class="btn btn-send">
-                                <i class="fa-solid fa-paper-plane"></i>
-                            </a>
-                        </div>
-                    </div>
+                    {% else %}
+                        <h2>Not RoomChat selected</h2>
+                    {% endif %}
                 </div>
             </div>
 

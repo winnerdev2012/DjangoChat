@@ -8,7 +8,8 @@ class ChatRoom(models.Model):
 
     title                   = models.CharField(max_length=255, blank=False, unique=True)
     users                   = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True ,help_text="user connected to the chat")
-    timestamp               = models.DateTimeField(auto_now_add=True)   
+    timestamp               = models.DateTimeField(auto_now_add=True)  
+    is_group_chat           = models.BooleanField(default=False) 
     
     def __str__(self):
         return self.title
@@ -18,11 +19,11 @@ class ChatRoom(models.Model):
         Return True if add user success
         """
         is_connected_user = False
-        if user not in self.users:
+        if not user in self.users.all():
             self.users.add(user)
             self.save()
             is_connected_user = True
-        elif user in self.users:
+        elif user in self.users.all():
             is_connected_user = True
         return is_connected_user
     

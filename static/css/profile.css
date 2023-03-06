@@ -1,0 +1,162 @@
+.container-profile {
+
+}
+
+.profile {
+    display: flex;
+    flex-flow: column nowrap;
+    /* margin: 0 auto; */
+    background-color: var(--text-color);
+    align-items: center;
+    border-radius: 4px;
+}
+
+.profile__img {
+    width: 50%;
+    border: none;
+    border-radius: 50%;
+}
+
+.profile__info {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.profile__info-username {
+    margin: 3px 0;
+    font-size: 3rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    line-height: 3rem;
+}
+
+.profile__info-email {
+    margin: 3px 0;
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 2rem;
+}
+
+.profile__action {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    width: 100%;
+    margin: 24px 0;
+}
+
+.btn {
+    width: 33.3333%;
+    margin: 16px;
+    min-width: 33.3333%;
+}
+
+.profile__extra {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    justify-content: center;
+}
+
+.profile__extra-link {
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 300;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    color: var(--primary-color);
+    border: none;
+    transition: .3 ease;
+}
+
+.profile__extra-link:hover {
+    opacity: .8;
+    border-left: 1px solid var(--no-focus-color);
+    border-right: 1px solid var(--no-focus-color);
+}
+
+.profile__extra-link__title {
+    margin: 0;
+    font-weight: 300;
+    line-height: 2rem;
+    font-size: 1.3rem;
+}
+
+.profile__extra-link__count {
+    margin: 0;
+    font-size: 3rem;
+    line-height: 3rem;
+    font-weight: 500;
+}
+
+/* MODAL CONTENT */
+
+.extra-list {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 0 32px;
+    width: 450px;
+    height: 70vh;
+}
+
+.extra-list__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+.extra-list__title {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+.extra-list__body {
+
+}
+.extra-list__list {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow-y: auto;
+}
+.extra-list__item {
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    justify-content: space-around;
+    align-items: center;
+}
+.extra-list__item-img {
+    width: 46px;
+}
+.extra-list__item-username {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.extra-action {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.extra-action__btn {
+
+}
+
+#close_list_btn {
+    color: #ccc;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 4px;
+}
+
+#close_list_btn:hover {
+    color: black;
+}
