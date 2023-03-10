@@ -10,6 +10,7 @@ class ChatRoom(models.Model):
     users                   = models.ManyToManyField(settings.AUTH_USER_MODEL,blank=True ,help_text="user connected to the chat")
     timestamp               = models.DateTimeField(auto_now_add=True)  
     is_group_chat           = models.BooleanField(default=False) 
+    is_active               = models.BooleanField(default=True)
     
     def __str__(self):
         return self.title
@@ -39,6 +40,10 @@ class ChatRoom(models.Model):
         elif user not in self.users:
             is_removed_user = True
         return is_removed_user
+    
+    def add_id_to_title(self):
+        self.title = self.title + "-" + str(self.pk)
+        self.save()
     
     @property
     def room_name(self):

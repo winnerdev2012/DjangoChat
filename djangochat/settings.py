@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'friends',
     'chatroom',
+    'rest_framework',
     
     'django.contrib.admin',
     'django.contrib.auth',

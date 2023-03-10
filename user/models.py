@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from friends.models import FriendList
 
 # Create your models here.
 
@@ -35,3 +39,8 @@ class CustomUser(AbstractUser):
     
     def get_profile_image_filename(self):
         return str(self.profile_image)[str(self.profile_image).index(f'profile_images/{self.pk}/'):]
+  
+    
+@receiver(post_save, sender=CustomUser)
+def user_save(sender, instance, **kwargs):
+    FriendList.objects.get_or_create(user=instance)

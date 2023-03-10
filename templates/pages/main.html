@@ -42,13 +42,15 @@
 
                     <ul class="chatmenu-list">
                         
-                        {% for friend in friend_list.friends.all %}
-                            <li class="chatmenu-item chatmenu-item--active">
-                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
-                                <div class="chatmenu-info">
-                                    <h4 class="chatmenu-info__username">{{ friend.username }}</h4>
-                                    <p class="chatmenu-info__lastest">Lastes f ffffffffffffffffffffffffffffffff</p>
-                                </div>
+                        {% for room_item in room_list %}
+                            <li>
+                                <a onclick="" href="{% url 'chatroom:main_chat' room_item.pk %}" class="chatmenu-item">
+                                    <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
+                                    <div class="chatmenu-info">
+                                        <h4 class="chatmenu-info__username">{{ room_item }}</h4>
+                                        <p class="chatmenu-info__lastest">Lastes f fffffffffffffffffffff</p>
+                                    </div>
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -62,7 +64,7 @@
                             <div class="box-info">
                                 <img src="{% static 'img/avt-female.svg' %}" alt="" class="box-info__avatar">
                                 <div class="box-info__info">
-                                    <h3 class="box-info__info-username">Username123</h3>
+                                    <h3 class="box-info__info-username">{{ chat_user_selected.username }}</h3>
                                     <p class="box-info__info-status">5 min </p>
                                 </div>
                             </div>
@@ -188,12 +190,12 @@
                                 </ul>
                             </div>
                             <div class="chat-bar__input">
-                                <input type="text" class="chat-bar__input-content" placeholder="Aa">
+                                <input type="text" id="chat-bar__input-content" class="chat-bar__input-content" placeholder="Aa">
                                 <a href="#" class="chat-bar__input-icon">
                                     <i class="fa-solid fa-face-smile"></i>
                                 </a>
                             </div>
-                            <div class="chat-bar__send">
+                            <div id="chat-bar__send" class="chat-bar__send">
                                 <a class="btn btn-send">
                                     <i class="fa-solid fa-paper-plane"></i>
                                 </a>
@@ -211,6 +213,22 @@
     </div>
 </div>
 
+
+{% block jsblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        function focus_room(url) {
+            var relativeUrl = window.location.pathname
+            var room_item = document.getElementsByClassName("chatmenu-item");
+            console.log(url);
+            if(url == relativeUrl) {
+                $("this").addClass('chatmenu-item--active')
+            }
+        }
+    </script>
+{% endblock jsblock %}
+    
 
 <!-- <h1>Home page.</h1>
 

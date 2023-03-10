@@ -103,7 +103,7 @@ Profile {{request.user.username}}
                     <h4 class="extra-list__item-username">{{ request_friend.sender.username }}</h4>
                     <div class="extra-action">
                         <button onclick="accept_friend_request('{{request_friend.pk }}')" id="accept_friend{{ request_friend.pk }}" class="btn extra-action__btn"><i class="fa-solid fa-circle-check"></i></button>
-                        <button class="btn extra-action__btn"><i class="fa-solid fa-circle-xmark"></i></button>
+                        <button onclick="decline_friend_request('{{request_friend.pk }}')" class="btn extra-action__btn"><i class="fa-solid fa-circle-xmark"></i></button>
                     </div>
                 </li>
                 {% endfor %}
@@ -124,10 +124,22 @@ Profile {{request.user.username}}
                 url: url,
                 data: {"request_id": request_id},
                 success: function (response) {
-                    // if not valid user, alert the user
-                    if(response["error"] != null){
-                        alert(response["error"]);
-                    }
+                    alert(response["success"]);
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            })
+        }
+
+        function decline_friend_request(request_id) {
+            var url = '{% url "friends:decline_friend" %}'
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {"request_id": request_id},
+                success: function (response) {
+                    alert(response["success"]);
                 },
                 error: function (response) {
                     console.log(response)

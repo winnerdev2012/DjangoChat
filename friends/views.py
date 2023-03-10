@@ -5,9 +5,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.urls import reverse
 
+from rest_framework import status
+
 from friends.models import FriendList, RequestFriend
 from user.models import CustomUser
 from chatroom.models import ChatRoom
+from chatroom.utils import get_or_create_chat_room
 
 # Create your views here.
 
@@ -66,10 +69,14 @@ class RequestFriendView(FriendBaseView):
             
             # UNFRIEND BUTTON
             elif action == "unfriend":
+                print("hehehehe111")
                 try:
-                    removee = CustomUser.objects.get(pk=receiver_user)
+                    receiver_user = CustomUser.objects.get(pk=receiver_user_id)
                     friend_list = FriendList.objects.get(user=sender_user)
-                    friend_list.unfriend(removee)
+                    try:
+                        friend_list.unfriend(receiver_user)
+                    except Exception as e:
+                        print(e)
                     context['result'] = "Successfully removed that friend."
                 except Exception as e:
                     context['result'] = f"Something went wrong: {str(e)}"
@@ -83,16 +90,8 @@ class RequestFriendView(FriendBaseView):
                     friend_list.save()
                 
                 if friend_list.is_mutual_friend(receiver_user):
-                    room = ChatRoom.objects.filter(users__in=[sender_user, receiver_user], is_group_chat=False).first()
-                    if room:
-                        return redirect(reverse('chatroom:main_chat', kwargs={ 'room_id': room.pk }))
-                    else:
-                        room = ChatRoom(title=sender_user.username + "-" + receiver_user.username)
-                        room.save()
-                        room.connect_user(sender_user)
-                        room.connect_user(sender_user)
-                        room.save()
-                        return redirect(reverse('chatroom:main_chat', kwargs={ 'room_id': room.pk }))
+                    room = get_or_create_chat_room([sender_user, receiver_user], is_group_chat=False)
+                    return redirect(reverse('chatroom:main_chat', kwargs={ 'room_id': room.pk }))
                 else:
                     context['result'] = "you must be a friend to mess."
                 
@@ -108,18 +107,22 @@ class AcceptRequestFriend(FriendBaseView):
                 friend_request = RequestFriend.objects.get(pk=int(friend_request_id))
                 friend_request.accept()
                 friend_request.save()
+                return HttpResponse({"success": "Accepted friend request"}, status=status.HTTP_200_OK)
             except RequestFriend.DoesNotExist:
                 return HttpResponse({"error": "Request Friend Does Not Exist."}, status=200)
         else:
             return HttpResponse({"error": "Not GET request or not is ajax request"}, status=400)
-        next = request.GET.get('next', '/')
-        return HttpResponseRedirect(next)
 
 class DeclineRequestFriend(FriendBaseView):
-    def get(self, request, friend_request_id):
-        try:
-            friend_request = RequestFriend.objects.get(pk=friend_request_id)
-            friend_request.decline()
-            friend_request.save()
-        except RequestFriend.DoesNotExist:
-            return HttpResponse("Request Friend Does Not Exist.")
+    def get(self, request):
+        if is_ajax(request=request) and request.method == "GET":
+            friend_request_id = request.GET.get("request_id", None)
+            try:
+                friend_request = RequestFriend.objects.get(pk=friend_request_id)
+                friend_request.decline()
+                friend_request.save()
+                return HttpResponse({"success": "Declined friend request"}, status=status.HTTP_200_OK)
+            except RequestFriend.DoesNotExist:
+                return HttpResponse({"error": "Request Friend Does Not Exist."}, status=200)
+        else:
+            return HttpResponse({"error": "Not GET request or not is ajax request"}, status=400)

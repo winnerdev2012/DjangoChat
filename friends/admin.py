@@ -4,10 +4,12 @@ from friends.models import FriendList, RequestFriend
 # Register your models here.
 
 class FriendListAdmin(admin.ModelAdmin):
-    list_display = ['user',]
+    list_display = ['user', 'get_friends']
     list_filter = ['user']
     search_fields = ['user']
     # readonly_fields = ['user']
+    def get_friends(self, obj):
+        return "\n".join([f.username for f in obj.friends.all()])
     
     class Meta:
         model = FriendList

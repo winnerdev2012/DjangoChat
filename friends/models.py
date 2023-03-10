@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+from chatroom.utils import get_or_create_chat_room
 # Create your models here.
 
 class FriendList(models.Model):
@@ -24,14 +25,29 @@ class FriendList(models.Model):
             self.friends.add(account)
             self.save()
             
+            # get chatroom
+            chatroom = get_or_create_chat_room(users=[account, self.user])
+            if not chatroom.is_active:
+                chatroom.is_active = True
+                chatroom.save()
+            
     def remove_friend(self, account):
         """
         REMOVE a friend
         Args:
             account (user): account remove
         """
+        
         if account in self.friends.all():
+            
+            # get chat room after remove
+            chatroom = get_or_create_chat_room(users=[account, self.user])
             self.friends.remove(account)
+            
+            
+            if chatroom.is_active:
+                chatroom.is_active = False
+                chatroom.save()
             
     
     def unfriend(self, removee):
@@ -40,11 +56,14 @@ class FriendList(models.Model):
         Args:
             removee (user):
         """
-        remover_friend_list = self.friends
+        remover_friend_list = self
+        
         remover_friend_list.remove_friend(removee)
         
+        
         friend_list = FriendList.objects.get(user=removee)
-        friend_list.remove_friend(self.user)
+        
+        friend_list.remove_friend(remover_friend_list.user)
         
         
     def is_mutual_friend(self, friend):
