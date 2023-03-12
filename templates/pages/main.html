@@ -81,7 +81,8 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="chat-room">
+                        <div id="box_message" class="chat-room">
+                            {{ room.pk|json_script:"current-room" }}
                             <div class="message-received">
                                 <img src="{% static 'img/avt-female.svg' %}" alt="" class="message-received__avatar">
                                 <div class="message-box message-received__body">
