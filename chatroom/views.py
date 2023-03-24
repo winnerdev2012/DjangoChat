@@ -27,6 +27,7 @@ class ChatRoomBlankView(ChatRoomBaseView):
         
         friend_list, created = FriendList.objects.get_or_create(user=user)
         context['friend_list'] = friend_list
+        context['debug_mode'] = settings.DEBUG
         
         return render(request, 'pages/main.html', context)
 
@@ -46,6 +47,7 @@ class ChatRoomView(ChatRoomBaseView):
         # room list
         room_list = ChatRoom.objects.filter(users__pk=user.pk, is_active=True)
         context['room_list'] = room_list
+        context['debug_mode'] = settings.DEBUG
         
         # room selected
         room = ChatRoom.objects.get(pk=room_id)

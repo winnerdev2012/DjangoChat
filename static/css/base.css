@@ -1,11 +1,20 @@
 :root {
-    --white-color: #fff;
+    --white-color: #f8f9fa;
     --black-color: #000;
     --text-color: #E4E6EB;
     --primary-color: #a2d2ff;
-    --no-focus-color: #ffc8dd;
+    --no-focus-color: #a8dadc;
     --warning-color: #ef233c;
     --header-height: 70px;
+
+    --bg-color-b: #457b9d;
+    --bg-color: #a8dadc;
+    --card-color: #f1faee;
+    --text-b-color: #1d3557;
+    --input-color: rgba(168, 218, 220, .5);
+    --main-chat-color: #E63946;
+    --active-color: rgba(69, 123, 157, .5);
+    --hover-color: rgba(69, 123, 157, .3);
 }
 
 * {
@@ -57,7 +66,7 @@ html {
 }
 
 .grid__max-height {
-    height: calc(100vh - 70px);
+    height: calc(100vh - var(--header-height) - 16px);
 }
 
 
@@ -65,7 +74,7 @@ html {
 
 .header {
     height: var(--header-height);
-    background-color: #ffafcc;
+    background-color: var(--card-color);
 }
 
 .header__navbar {

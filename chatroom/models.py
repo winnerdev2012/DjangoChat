@@ -33,11 +33,11 @@ class ChatRoom(models.Model):
         Return True if remove user success
         """
         is_removed_user = False
-        if user in self.users:
+        if user in self.users.all():
             self.users.remove(user)
             self.save()
             is_removed_user = True
-        elif user not in self.users:
+        elif user not in self.users.all():
             is_removed_user = True
         return is_removed_user
     
@@ -50,7 +50,7 @@ class ChatRoom(models.Model):
         """
         Return the channel room name that sockets should subscribe to and get mess from user
         """
-        return f"ChatRoom-{self.id}"
+        return f"ChatRoom-{self.title}"
 
 class MessageManager(models.Manager):
     def by_room(self, room):
@@ -60,7 +60,7 @@ class MessageManager(models.Manager):
 class Message(models.Model):
     user                        = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message_body                = models.TextField(default='')
-    parent_message_id           = models.ForeignKey('self', on_delete=models.CASCADE, blank=True)
+    parent_message_id           = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     room                        = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
     is_read                     = models.BooleanField(default=False)
     timestamp                   = models.DateTimeField(auto_now_add=True)

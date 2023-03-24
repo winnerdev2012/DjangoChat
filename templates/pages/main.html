@@ -16,49 +16,79 @@
     <div class="grid">
         <div class="grid__row">
             <div class="grid__col-3 grid__max-height .grid__min-width">
-                <nav class="chatmenu">
-                    <div class="chatmenu-heading">
-                        <h3 class="chatmenu-heading__title">Chat</h3>
-                        <div class="chatmenu-heading__option">
-                            <a href="#" class="chatmenu-heading__option-link">
-                                <i class="fa-solid fa-ellipsis"></i>
-                            </a>
-                            <a href="#" class="chatmenu-heading__option-link">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
+                <div class="left-nav">
+                    <nav class="chatmenu">
+                        <div class="chatmenu-heading">
+                            <h3 class="chatmenu-heading__title">Chat</h3>
+                            <!-- <div class="chatmenu-heading__option">
+                                <a href="#" class="chatmenu-heading__option-link">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </a>
+                                <a href="#" class="chatmenu-heading__option-link">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </div> -->
                         </div>
-                    </div>
-                    
-                    <div class="chatmenu-navbar">
-                        <div class="chatmenu-navbar__search">
-                            <input class="chatmenu-navbar__search-input" type="text" placeholder="Search">
-                            <i class="chatmenu-navbar__search-icon fa-solid fa-magnifying-glass"></i>
-                        </div>
-                        <div class="chatmenu-navbar__selection">
-                            <a href="#" class="chatmenu-navbar__selection-link">Friends</a>
-                            <a href="#" class="chatmenu-navbar__selection-link">Groups</a>
-                        </div>
-                    </div>
-
-                    <ul class="chatmenu-list">
                         
-                        {% for room_item in room_list %}
+                        <div class="chatmenu-navbar">
+                            <div class="chatmenu-navbar__search">
+                                <input class="chatmenu-navbar__search-input" type="text" placeholder="Search">
+                                <i class="chatmenu-navbar__search-icon fa-solid fa-magnifying-glass"></i>
+                            </div>
+                            <!-- <div class="chatmenu-navbar__selection">
+                                <a href="#" class="chatmenu-navbar__selection-link">Friends</a>
+                                <a href="#" class="chatmenu-navbar__selection-link">Groups</a>
+                            </div> -->
+                        </div>
+    
+                        <ul class="chatmenu-list">
+                            {% for room_item in room_list %}
+                                <li>
+                                    <a id="room__roomId-{{ room_item.pk }}" onclick="" href="{% url 'chatroom:main_chat' room_item.pk %}" class="chatmenu-item">
+                                        <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
+                                        <div class="chatmenu-info">
+                                            <h4 class="chatmenu-info__username">{{ room_item }}</h4>
+                                            <p class="chatmenu-info__lastest">Lastes f fffffffffffffffffffff</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    <nav class="group-chat">
+                        <h3 class="group-chat__title">Groups</h3>
+                        <ul class="chatmenu-list group-chat__list" id="group-chat__list">
                             <li>
-                                <a onclick="" href="{% url 'chatroom:main_chat' room_item.pk %}" class="chatmenu-item">
-                                    <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
-                                    <div class="chatmenu-info">
-                                        <h4 class="chatmenu-info__username">{{ room_item }}</h4>
-                                        <p class="chatmenu-info__lastest">Lastes f fffffffffffffffffffff</p>
+                                <a href="#" class="group-chat__item">
+                                    <div class="group-chat__image">
+                                        <span class="group-chat__image-char">G</span>
                                     </div>
+                                    <span class="group-chat__name">group name</span>
                                 </a>
                             </li>
-                        {% endfor %}
-                    </ul>
-                </nav>
+                            <li>
+                                <a href="#" class="group-chat__item">
+                                    <div class="group-chat__image">
+                                        <span class="group-chat__image-char">G</span>
+                                    </div>
+                                    <span class="group-chat__name">group name</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="group-chat__item">
+                                    <div class="group-chat__image">
+                                        <span class="group-chat__image-char">G</span>
+                                    </div>
+                                    <span class="group-chat__name">group name</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
 
             <div class="grid__col-6 grid__max-height .grid__min-width">
-                <div class="box-chat">
+                <div class="box-chat" id="box-chat">
                     {% if is_selected_room == True %}
                         <div class="box-header">
                             <div class="box-info">
@@ -81,9 +111,9 @@
                                 </a>
                             </div>
                         </div>
-                        <div id="box_message" class="chat-room">
+                        <div id="box-message" class="chat-room">
                             {{ room.pk|json_script:"current-room" }}
-                            <div class="message-received">
+                            <!-- <div class="message-received">
                                 <img src="{% static 'img/avt-female.svg' %}" alt="" class="message-received__avatar">
                                 <div class="message-box message-received__body">
                                     <p class="message-content">hello xin chao cac ban received</p>
@@ -93,88 +123,7 @@
                                 <div class="message-box message-sent__body">
                                     <p class="message-content">hello xin chao cac ban sent</p>
                                 </div>
-                            </div>
-
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
-                            <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
-                                </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="chat-bar">
                             <div class="chat-bar__media">
@@ -217,7 +166,6 @@
 
 {% block jsblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
     <script>
         function focus_room(url) {
             var relativeUrl = window.location.pathname
@@ -227,7 +175,10 @@
                 $("this").addClass('chatmenu-item--active')
             }
         }
+        var is_user_auth = "{{ request.user.is_authenticated }}"
+        var debug_mode = "{{ debug_mode }}"
     </script>
+    <script src="{% static 'js/main.js' %}"></script>
 {% endblock jsblock %}
     
 
