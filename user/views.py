@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
@@ -9,6 +9,8 @@ from friends.models import FriendList, RequestFriend
 
 # Create your views here.
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 class UserBaseView(LoginRequiredMixin, View):
     login_url = settings.LOGIN_URL
     redirect_field_name = settings.LOGIN_URL
@@ -46,5 +48,27 @@ class UserProfileView(UserBaseView):
             return render(request, 'accounts/profile.html', context)
         except CustomUser.DoesNotExist:
             return HttpResponse("User does not exist")
+
+class SearchUserView(UserBaseView):
+    def post(self, request):
+        if is_ajax(request) and request.method == 'POST':
+            result = None
+            search_data = request.POST.get('search_data')
+            users_search = CustomUser.objects.filter(username__icontains=search_data)
+            if len(users_search) > 0 and len(search_data):
+                data = []
+                for user in users_search:
+                    item = {
+                        'user_id': user.id,
+                        'username': user.username,
+                        'profile_image': user.profile_image.url
+                    }
+                    data.append(item)
+                result = data
+            else:
+                result = "User Not Found!" 
+                       
+            return JsonResponse({"users": result})
+        return JsonResponse({})
         
         

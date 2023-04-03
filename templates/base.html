@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/normalize/normalize.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}?version=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     {% block cssblock %}
     {% endblock cssblock %}
 
@@ -42,7 +43,7 @@
             </div>
         </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="{% static 'js/base.js' %}"></script>
         {% block jsblock %}
         {% endblock jsblock %}    
     </main>

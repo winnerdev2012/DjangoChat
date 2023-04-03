@@ -5,6 +5,15 @@
 
 {% block cssblock %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}?version=1">
+    <style>
+        .box-info__avatar {
+            background-image: url("{{ chat_user_selected.profile_image.url }}");
+        }
+
+        .header__navbar-profile-avatar {
+            background-image: url("{{ request.user.profile_image.url }}");
+        }
+    </style>
 {% endblock cssblock %}
 
 {% block header %}
@@ -31,18 +40,33 @@
                         </div>
                         
                         <div class="chatmenu-navbar">
-                            <div class="chatmenu-navbar__search">
-                                <input class="chatmenu-navbar__search-input" type="text" placeholder="Search">
-                                <i class="chatmenu-navbar__search-icon fa-solid fa-magnifying-glass"></i>
+                            <div id="chatmenu-navbar__search-wrap" class="chatmenu-navbar__search-wrap">
+                                <form id="search-form" class="chatmenu-navbar__search">
+                                    {% csrf_token %}
+                                    <input id="search-user-input" class="chatmenu-navbar__search-input" type="text" placeholder="Search">
+                                    <i class="chatmenu-navbar__search-icon fa-solid fa-magnifying-glass"></i>
+                                </form>
+                                <div class="chatmenu-navbar__search-result">
+                                    <h4 class="chatmenu-navbar__search-title">Users</h4>
+                                    <ul class="chatmenu-navbar__search-list">
+                                        <!-- <li class="chatmenu-navbar__search-item">
+                                            <a class="chatmenu-navbar__search-link href="">
+                                                <img class="chatmenu-navbar__search-image" src="/media/profile_images/2/profile_image.png" alt="">
+                                                <span class="chatmenu-navbar__search-item-info">Username</span>
+                                            </a>
+                                        </li> -->
+                                    </ul>
+                                </div>
                             </div>
+                            
                             <!-- <div class="chatmenu-navbar__selection">
                                 <a href="#" class="chatmenu-navbar__selection-link">Friends</a>
                                 <a href="#" class="chatmenu-navbar__selection-link">Groups</a>
                             </div> -->
                         </div>
     
-                        <ul class="chatmenu-list">
-                            {% for room_item in room_list %}
+                        <ul id="private-chat__list" class="chatmenu-list">
+                            <!-- {% for room_item in room_list %}
                                 <li>
                                     <a id="room__roomId-{{ room_item.pk }}" onclick="" href="{% url 'chatroom:main_chat' room_item.pk %}" class="chatmenu-item">
                                         <img src="{% static 'img/avt-female.svg' %}" alt="" class="chatmenu-info__avatar">
@@ -50,9 +74,10 @@
                                             <h4 class="chatmenu-info__username">{{ room_item }}</h4>
                                             <p class="chatmenu-info__lastest">Lastes f fffffffffffffffffffff</p>
                                         </div>
+                                        <i id="room-status-userId-{{room_item.pk}}" class="fa-solid fa-circle chatmenu-status"></i>
                                     </a>
                                 </li>
-                            {% endfor %}
+                            {% endfor %} -->
                         </ul>
                     </nav>
                     <nav class="group-chat">
@@ -92,10 +117,20 @@
                     {% if is_selected_room == True %}
                         <div class="box-header">
                             <div class="box-info">
-                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="box-info__avatar">
+                                <img alt="" class="box-info__avatar">
                                 <div class="box-info__info">
                                     <h3 class="box-info__info-username">{{ chat_user_selected.username }}</h3>
-                                    <p class="box-info__info-status">5 min </p>
+                                        {% if chat_user_selected.is_online %}
+                                            <p style="color: green;" id="status-userId-{{ chat_user_selected.id }}" class="box-info__info-status">
+                                                <i class="fa-solid fa-circle"></i>
+                                                Online
+                                            </p>
+                                        {% else %}
+                                            <p style="color: var(--text-color)" id="status-userId-{{ chat_user_selected.id }}" class="box-info__info-status">
+                                                <i class="fa-solid fa-circle"></i>
+                                                Offline
+                                            </p>                                         
+                                        {% endif %}
                                 </div>
                             </div>
 
@@ -114,14 +149,27 @@
                         <div id="box-message" class="chat-room">
                             {{ room.pk|json_script:"current-room" }}
                             <!-- <div class="message-received">
-                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="message-received__avatar">
-                                <div class="message-box message-received__body">
-                                    <p class="message-content">hello xin chao cac ban received</p>
+                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="message-avatar">
+                                <div class="message-container">
+                                    <div class="message-info">
+                                        <span class="message-info__username">username</span>
+                                        <span class="message-info__timestamp">Yesterday 10:40 AM</span>
+                                    </div>
+                                    <div class="message-box message-received__body"> 
+                                        <p class="message-content">hello xin chao cac ban received</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="message-sent">
-                                <div class="message-box message-sent__body">
-                                    <p class="message-content">hello xin chao cac ban sent</p>
+                                <img src="{% static 'img/avt-female.svg' %}" alt="" class="message-avatar">
+                                <div class="message-container">
+                                    <div class="message-info">
+                                        <span class="message-info__username">username</span>
+                                        <span class="message-info__timestamp">Yesterday 10:40 AM</span>
+                                    </div>
+                                    <div class="message-box message-sent__body">
+                                        <p class="message-content">hello xin chao cac ban sent</p>
+                                    </div>
                                 </div>
                             </div> -->
                         </div>
@@ -158,6 +206,49 @@
             </div>
 
             <div class="grid__col-3 grid__max-height .grid__min-width">
+                <div class="user_detail">
+                    <div class="user_detail__header">
+                        <div style="background-image: url('{{ chat_user_selected.profile_image.url }}');" class="user_detail__bg"></div>
+                        <div class="user_detail__container">
+                            <span class="user_detail__username">{{ chat_user_selected.username }}</span>
+                            <span class="user_detail__text">Student</span>
+                            <div class="user_detail__with-icon">
+                                <i class="user_detail__with-icon__icon fa-solid fa-location-dot"></i>
+                                <span class="user_detail__location">HN, VietNam</span>
+                            </div>
+                            <div class="user_detail__container-button">
+                                <button class="user_detail__button">
+                                    <i class="fa-solid fa-message"></i>
+                                </button>
+                                <button class="user_detail__button">
+                                    <i class="fa-solid fa-message"></i>
+                                </button>
+                                <button class="user_detail__button">
+                                    <i class="fa-solid fa-video"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user_detail__body">
+                        <h3 class="user_detail__body-header">Information</h3>
+                        <div class="user_detail__information">
+                            <h4 class="user_detail__information-title">Phone</h4>
+                            <span class="user_detail__information-content">0987 654 321</span>
+                        </div>
+                        <div class="user_detail__information">
+                            <h4 class="user_detail__information-title">Email</h4>
+                            <span class="user_detail__information-content">daylaemaill@email.com</span>
+                        </div>
+                    </div>
+                    <div class="user_detail__footer">
+                        <h3 class="user_detail__footer-title">Media</h3>
+                        <div class="user_detail__media-container">
+                            <img src="/media/profile_images/2/profile_image.png" alt="" class="user_detail__media">
+                            <img src="/media/profile_images/2/profile_image.png" alt="" class="user_detail__media">
+                            <img src="/media/profile_images/2/profile_image.png" alt="" class="user_detail__media">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -165,16 +256,8 @@
 
 
 {% block jsblock %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src=" {% static 'js/reconnecting-websocket.min.js' %}"></script>
     <script>
-        function focus_room(url) {
-            var relativeUrl = window.location.pathname
-            var room_item = document.getElementsByClassName("chatmenu-item");
-            console.log(url);
-            if(url == relativeUrl) {
-                $("this").addClass('chatmenu-item--active')
-            }
-        }
         var is_user_auth = "{{ request.user.is_authenticated }}"
         var debug_mode = "{{ debug_mode }}"
     </script>

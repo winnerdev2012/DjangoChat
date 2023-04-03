@@ -9,7 +9,7 @@ from friends.models import FriendList
 
 # Create your models here.
 
-def get_profile_image_path(self):
+def get_profile_image_path(self, filename):
     return f"profile_images/{self.pk}/{'profile_image.png'}"
 
 def get_default_profile_image_path():
@@ -30,6 +30,7 @@ class CustomUser(AbstractUser):
     profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_path
                                       , null=True, blank=True, default=get_default_profile_image_path)
     gender = models.CharField(max_length=30, choices=GENDER_CHOICES, null=True, blank=True)
+    is_online = models.BooleanField(default=False)
 
     # USERNAME_FIELD = "username"
     # REQUIRED_FIELDS = []
@@ -39,6 +40,10 @@ class CustomUser(AbstractUser):
     
     def get_profile_image_filename(self):
         return str(self.profile_image)[str(self.profile_image).index(f'profile_images/{self.pk}/'):]
+    
+    def update_user_status(self, status):
+        self.is_online = status
+        self.save()
   
     
 @receiver(post_save, sender=CustomUser)

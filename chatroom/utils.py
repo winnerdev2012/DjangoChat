@@ -1,10 +1,11 @@
+import json
 from django.utils.crypto import get_random_string
 from datetime import datetime
 from django.contrib.humanize.templatetags.humanize import naturalday
 from django.db.models import Count
 from django.core.serializers.python import Serializer
 
-from chatroom.models import ChatRoom
+from chatroom.models import ChatRoom, Message
 from chatroom.constants import *
 
 def generate_id(length):
@@ -12,9 +13,7 @@ def generate_id(length):
 
 def get_or_create_chat_room(users, is_group_chat=False):
     length = 7
-    print("hahahahah")
     room = ChatRoom.objects.filter(users__in=users).annotate(num_users=Count('users')).filter(num_users=len(users))
-    print("hahahahah")
     # is empty
     if not room:
         room = ChatRoom(title=get_random_string(length), is_group_chat=is_group_chat)
@@ -47,7 +46,7 @@ def calculate_timestamp(timestamp):
     else:
         str_time = datetime.strftime(timestamp, "%m/%d/%Y")
         ts = f"{str_time}"  
-        return str(ts)
+    return str(ts)
     
 class LazyRoomChatMessageEncoder(Serializer):
     def get_dump_object(self, obj):
@@ -59,13 +58,38 @@ class LazyRoomChatMessageEncoder(Serializer):
         dump_object.update({'message': str(obj.message_body)})
         dump_object.update({'profile_image': str(obj.user.profile_image.url)})
         dump_object.update({'natural_timestamp': calculate_timestamp(obj.timestamp)})
+        dump_object.update({'room_id': str(obj.room.id)})
         return dump_object
     
 class LazyUserEncoder(Serializer):
     def get_dump_object(self, obj):
         dump_object = {}
         dump_object.update({'id': str(obj.id)})
-        dump_object.update({'email': str(obj.email)})
         dump_object.update({'username': str(obj.username)})
         dump_object.update({'profile_image': str(obj.profile_image.url)})
+        dump_object.update({'status': str(obj.is_online)})
+        return dump_object
+    
+class LazyRoomEncoder(Serializer):
+    def get_dump_object(self, obj):
+        msg = ""
+        last_mess = Message.objects.by_room(room=obj)
+        if last_mess:
+            msg = last_mess.first().message_body
+        
+        room_img = ""
+        if not obj.is_group_chat:
+            e = LazyUserEncoder()
+            users = e.serialize(obj.users.all())     
+            # room_img = json.dumps(users)
+            room_img = users
+            
+        dump_object = {}
+        dump_object.update({'id': str(obj.id)})
+        dump_object.update({'title': str(obj.title)})
+        dump_object.update({'timestamp': calculate_timestamp(obj.timestamp)})
+        dump_object.update({'is_group_chat': str(obj.is_group_chat)})
+        dump_object.update({'is_active': str(obj.is_active)})
+        dump_object.update({'latest_message': msg})
+        dump_object.update({'users': room_img})
         return dump_object

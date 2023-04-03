@@ -22,15 +22,15 @@ class FriendBaseView(LoginRequiredMixin, View):
     redirect_field_name = settings.LOGIN_URL
     
 class FriendListView(FriendBaseView):
-    def get(self, request, user_id):
+    def get(self, request):
         context = {}
         user = request.user
-        if user_id:
-            try:
-                this_user = CustomUser.objects.get(pk=user_id)
-                context['this_user'] = this_user
-            except CustomUser.DoesNotExist:
-                return HttpResponse("That user does not exist.")
+        try:
+            friends = FriendList.objects.get(user=user)
+            context["friend_list"] = friends.friends.all()
+            return render(request, 'friends/friend-list.html', context)
+        except Exception as e:
+            return HttpResponse(str(e))
 
 class RequestFriendView(FriendBaseView):
     def post(self, request, receiver_user_id):

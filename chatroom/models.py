@@ -1,9 +1,15 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Max, Count
 
 
 # Create your models here.
 
+class ChatRoomManager(models.Manager):
+    def by_latest_message(self, user):
+        rooms = ChatRoom.objects.filter(users__id=user).filter(is_active=True)
+        rooms = rooms.annotate(latest_message_time=Max('message__timestamp')).order_by('-latest_message_time')
+        return rooms
 class ChatRoom(models.Model):
 
     title                   = models.CharField(max_length=255, blank=False, unique=True)
@@ -11,6 +17,8 @@ class ChatRoom(models.Model):
     timestamp               = models.DateTimeField(auto_now_add=True)  
     is_group_chat           = models.BooleanField(default=False) 
     is_active               = models.BooleanField(default=True)
+
+    objects = ChatRoomManager()
     
     def __str__(self):
         return self.title
@@ -44,13 +52,21 @@ class ChatRoom(models.Model):
     def add_id_to_title(self):
         self.title = self.title + "-" + str(self.pk)
         self.save()
-    
+        
+    def get_private_room_image(self, auth_user):
+        if not self.is_group_chat:
+            for user in self.users.all():
+                if user != auth_user:
+                    return user.profile_image.url  
+            
+            
     @property
     def room_name(self):
         """
         Return the channel room name that sockets should subscribe to and get mess from user
         """
         return f"ChatRoom-{self.title}"
+        
 
 class MessageManager(models.Manager):
     def by_room(self, room):

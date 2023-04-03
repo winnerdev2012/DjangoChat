@@ -1,7 +1,7 @@
 :root {
     --white-color: #f8f9fa;
     --black-color: #000;
-    --text-color: #E4E6EB;
+    --text-color: #d9d9d9;
     --primary-color: #a2d2ff;
     --no-focus-color: #a8dadc;
     --warning-color: #ef233c;
@@ -13,7 +13,7 @@
     --text-b-color: #1d3557;
     --input-color: rgba(168, 218, 220, .5);
     --main-chat-color: #E63946;
-    --active-color: rgba(69, 123, 157, .5);
+    --active-color: #457b9d;
     --hover-color: rgba(69, 123, 157, .3);
 }
 
@@ -136,7 +136,7 @@ html {
     text-decoration: none;
     font-size: 1.5rem;
     display: inline-flex;
-    color: var(--white-color);
+    color: var(--text-b-color);
     font-weight: 300;
     align-items: center;
     justify-content: center;
@@ -145,14 +145,22 @@ html {
 
 .header__navbar-item:hover {
     box-sizing: border-box;
-    border-top: 3px solid var(--primary-color);
+    border-top: 3px solid var(--active-color);
     border-radius: 2px;
     /* opacity: 0.9; */
     cursor: pointer;
 }
 
 .header__navbar-item:hover > .header__navbar-item-link {
-    color: var(--primary-color);
+    color: var(--active-color);
+}
+
+.header__navbar-item--active {
+    border-top: 3px solid var(--active-color);
+}
+
+.header__navbar-item--active .header__navbar-item-link {
+    color: var(--active-color);
 }
 
 .header__navbar-item-logo {
@@ -172,11 +180,16 @@ html {
     border-radius: 50%;
     box-sizing: border-box;
     border: 0px solid;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 40px;
+    background-color: white;
 }
 
 .header__navbar-profile-username{
     font-weight: 800;
-    color: var(--primary-color);
+    color: var(--text-b-color);
 }
 
 .header__navbar-profile-status{

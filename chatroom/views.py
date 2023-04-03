@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
-from django.core.exceptions import ObjectDoesNotExist
+from django.urls import reverse
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
@@ -12,6 +13,11 @@ from friends.models import FriendList
 class ChatRoomBaseView(LoginRequiredMixin, View):
     login_url = settings.LOGIN_URL
     redirect_field_name = settings.LOGIN_URL
+    
+class IndexPageView(ChatRoomBaseView):
+    def get(self, request):
+        blank_path = reverse('chatroom:home')
+        return redirect(blank_path)
 
 class ChatRoomBlankView(ChatRoomBaseView):
     def get(self, request):
@@ -21,15 +27,12 @@ class ChatRoomBlankView(ChatRoomBaseView):
         is_selected_room = False
         context['is_selected_room'] = is_selected_room
         
-        # room list
-        room_list = ChatRoom.objects.filter(users__pk=user.pk, is_active=True)
-        context['room_list'] = room_list
+        rooms = ChatRoom.objects.by_latest_message(user.id)
         
-        friend_list, created = FriendList.objects.get_or_create(user=user)
-        context['friend_list'] = friend_list
-        context['debug_mode'] = settings.DEBUG
+        room_latest_path = reverse('chatroom:main_chat', kwargs={'room_id': rooms.first().id})
+        return redirect(room_latest_path)
         
-        return render(request, 'pages/main.html', context)
+        # return render(request, 'pages/main.html', context)
 
 class ChatRoomView(ChatRoomBaseView):
     def get(self, request, room_id):
@@ -39,11 +42,7 @@ class ChatRoomView(ChatRoomBaseView):
         
         is_selected_room = True
         context['is_selected_room'] = is_selected_room
-        
-        
-        friend_list, created = FriendList.objects.get_or_create(user=user)
-        context['friend_list'] = friend_list
-        
+             
         # room list
         room_list = ChatRoom.objects.filter(users__pk=user.pk, is_active=True)
         context['room_list'] = room_list

@@ -1,0 +1,89 @@
+.container__friend {
+    background-color: var(--bg-color);
+    height: calc(100vh - var(--header-height));
+}
+
+.friend__title {
+    font-size: 2.0rem;
+    margin: 12px 0 24px 8px;
+    padding: 0px;
+    color: var(--text-b-color);
+}
+
+.friend__list {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.friend__card {
+    background-color: var(--card-color);
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 1px 1px 1px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    height: 90px;
+}
+
+.friend__card-image {
+    border-radius: 4px;
+    margin: 4px;
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.friend__card-info {
+    display: flex;
+    flex-flow: column nowrap;
+    overflow-x: hidden;
+}
+
+.friend__card-username {
+    color: var(--text-b-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 8px 0 8px 8px;
+}
+
+.friend__card-email {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-left: 8px;
+}
+
+.friend__card-action {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.friend__card-last-login {
+    color: var(--text-color);
+    font-size: 1.0rem;
+    font-weight: 300;
+    font-style: italic;
+    margin: 8px;
+}
+
+.friend__card-action__button {
+    border: 1px solid var(--bg-color-b);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--bg-color-b);
+}
+
+.friend__card-action__button:hover {
+    opacity: 0.8;
+}

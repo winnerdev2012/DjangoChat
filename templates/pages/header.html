@@ -9,25 +9,25 @@
                     </a>
                 </div>
                 <ul class="header__navbar-list header__navbar-menu">
-                    <li class="header__navbar-item">
-                        <a href="" class="header__navbar-item-link">
+                    <li id="navbar-chat" class="header__navbar-item">
+                        <a href="{% url 'chatroom:home' %}" class="header__navbar-item-link">
                             <i class="header__navbar-item-logo fa-solid fa-message"></i>
                             Chat
                         </a>
                     </li>
-                    <li class="header__navbar-item">
-                        <a href="#" class="header__navbar-item-link">
+                    <li id="navbar-contact" class="header__navbar-item">
+                        <a href="{% url 'friends:friend_list' %}" class="header__navbar-item-link">
                             <i class="header__navbar-item-logo fa-solid fa-address-book"></i>
                             Contact
                         </a>
                     </li>
-                    <li class="header__navbar-item">
+                    <li id="navbar-notification" class="header__navbar-item">
                         <a href="#" class="header__navbar-item-link">
                             <i class="header__navbar-item-logo fa-solid fa-bell"></i>
                             Notification
                         </a>
                     </li>
-                    <li class="header__navbar-item">
+                    <li id="navbar-setting" class="header__navbar-item">
                         <a href="#" class="header__navbar-item-link">
                             <i class="header__navbar-item-logo fa-solid fa-bars"></i>
                             Setting
@@ -37,10 +37,13 @@
             </div>
             <div class="header__navbar-right">
                 {% if user.is_authenticated %}
-                    <img class="header__navbar-item-link header__navbar-profile-avatar" src="{% static 'img/avt-female.svg' %}" alt="Avatar">
+                    <img class="header__navbar-item-link header__navbar-profile-avatar" alt="">
                     <div class="header__navbar-profile">
                         <a href="" class="header__navbar-item-link header__navbar-profile-username">{{request.user.username}}</a>
                         <p class="header__navbar-profile-status">Active</p>
+                    </div>
+                    <div class="profile-menu">
+                        <div class="profile-item"></div>
                     </div>
                 {% else %}
                     <ul class="header__navbar-list">

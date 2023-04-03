@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Friend List{% endblock title %}
+
+{% block cssblock %}
+    <link rel="stylesheet" href="{% static 'css/friend_list.css' %}?version=1">
+    <style>
+        .box-info__avatar {
+            background-image: url("{{ chat_user_selected.profile_image.url }}");
+        }
+
+        .header__navbar-profile-avatar {
+            background-image: url("{{ request.user.profile_image.url }}");
+        }
+    </style>
+{% endblock cssblock %}
+
+{% block header %}
+    {% include 'pages/header.html' %}
+{% endblock header %}
+
+
+{% block content %}
+<div class="container__friend">
+    <div class="grid">
+        <div class="grid__row">
+            <div class="friend__title">
+                <h2 class="friend__title">Friend List</h2>
+            </div>
+            <div class="friend__list">
+                
+                {% for friend in friend_list %}
+                <div class="grid__col-3">
+                    <div class="friend__card">
+                        <div class="friend__card-image" style="background-image: url('{{ friend.profile_image.url }}');"></div>
+                        <div class="friend__card-info">
+                            <h3 class="friend__card-username">{{ friend.username }}</h3>
+                            <span class="friend__card-email">emailoday@email.com</span>
+                        </div>
+                        <div class="friend__card-action">
+                            <span class="friend__card-last-login">22/12/2022</span>
+                            <a href="" class="friend__card-action__button">
+                                <i class="fa-solid fa-message"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                    
+                <div class="grid__col-3">
+                    <div class="friend__card">
+                        <div class="friend__card-image" style="background-image: url(/media/profile_images/2/profile_image.png);"></div>
+                        <div class="friend__card-info">
+                            <h3 class="friend__card-username">Username</h3>
+                            <span class="friend__card-email">emailoday@email.com</span>
+                        </div>
+                        <div class="friend__card-action">
+                            <span class="friend__card-last-login">22/12/2022</span>
+                            <a href="" class="friend__card-action__button">
+                                <i class="fa-solid fa-message"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    
