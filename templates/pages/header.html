@@ -38,12 +38,23 @@
             <div class="header__navbar-right">
                 {% if user.is_authenticated %}
                     <img class="header__navbar-item-link header__navbar-profile-avatar" alt="">
-                    <div class="header__navbar-profile">
-                        <a href="" class="header__navbar-item-link header__navbar-profile-username">{{request.user.username}}</a>
+                    <div id="header-profile-menu" class="header__navbar-profile">
+                        <span class="header__navbar-item-link header__navbar-profile-username">{{request.user.username}}</span>
                         <p class="header__navbar-profile-status">Active</p>
                     </div>
-                    <div class="profile-menu">
-                        <div class="profile-item"></div>
+                    <div id="user-menu" class="user-menu">
+                        <a href="{% url 'user:user_profile' user.id %}" class="user-item user-item--top">
+                            <i class="user-item__icon fa-regular fa-user"></i>
+                            <span class="user-item__text">My Profile</span>
+                        </a>
+                        <a href="" class="user-item user-item--center">
+                            <i class="user-item__icon fa-solid fa-gear"></i>
+                            <span class="user-item__text">Setting</span>
+                        </a>
+                        <a href="{% url 'authenticate:logout' %}" class="user-item user-item--bot">
+                            <i class="user-item__icon fa-solid fa-right-from-bracket"></i>
+                            <span class="user-item__text">Logout</span>
+                        </a>
                     </div>
                 {% else %}
                     <ul class="header__navbar-list">

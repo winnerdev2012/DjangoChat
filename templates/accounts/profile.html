@@ -15,6 +15,9 @@ Profile {{request.user.username}}
     </style>
 {% endblock cssblock %}
 
+{% block header %}
+    {% include 'pages/header.html' %}
+{% endblock header %}
 
 {% block content %}
 
@@ -24,10 +27,10 @@ Profile {{request.user.username}}
             <div class="grid__col-3"></div>
             <div class="grid__col-6">
                 <div class="profile">
-                    <img src="{% static 'img/avt-female.svg' %}" alt="" class="profile__img">
+                    <img src="{{ user_profile.profile_image.url }}" alt="" class="profile__img">
                     <div class="profile__info">
                         <p class="profile__info-username">{{ user_profile.username }}</p>
-                        <p class="profile__info-email">{{ user_auth_friend_list }}</p>
+                        <p class="profile__info-email">{{ user_profile.email }}</p>
                     </div>
                     <div class="profile__action">
                         <form class="profile__action" action="{% url 'friends:friend_action' user_profile.pk %}" method="post">
@@ -60,7 +63,7 @@ Profile {{request.user.username}}
                     <div class="profile__extra">
                         <a href="javascript:void(0);" class="profile__extra-link" id="friend_list_btn">
                             <p class="profile__extra-link__count">
-                                {{user_auth_friend_list.count}}
+                                {{user_friend_list.count}}
                             </p>
                             <p class="profile__extra-link__title">
                                 Friends
@@ -70,7 +73,7 @@ Profile {{request.user.username}}
                         {% if RELATIONSHIP == 0  %}
                             <a href="javascript:void(0);" class="profile__extra-link" id="request_list_btn">
                                 <p class="profile__extra-link__count">
-                                    {{user_auth_request_list.count}}
+                                    {{user_request_list.count}}
                                 </p>
                                 <p class="profile__extra-link__title">
                                     Friends Request
@@ -91,20 +94,30 @@ Profile {{request.user.username}}
 {% block modal_content %}
     <div class="extra-list">
         <div class="extra-list__header">
-            <h3 class="extra-list__title">Request Friend</h3>
+            <h3 id="extra-list__title">Request Friend</h3>
             <span id="close_list_btn">x</span>
         </div>
         <div class="extra-list__body">
-            <ul class="extra-list__list">
+            <ul id="friend_request_list" class="extra-list__list">
                 
-                {% for request_friend in user_auth_request_list %}
+                {% for request_friend in user_request_list %}
                 <li class="extra-list__item" >
-                    <img src="{% static 'img/avt-female.svg' %}" alt="" class="extra-list__item-img">
+                    <img src="{{ request_friend.sender.profile_image.url }}" alt="" class="extra-list__item-img">
                     <h4 class="extra-list__item-username">{{ request_friend.sender.username }}</h4>
                     <div class="extra-action">
                         <button onclick="accept_friend_request('{{request_friend.pk }}')" id="accept_friend{{ request_friend.pk }}" class="btn extra-action__btn"><i class="fa-solid fa-circle-check"></i></button>
                         <button onclick="decline_friend_request('{{request_friend.pk }}')" class="btn extra-action__btn"><i class="fa-solid fa-circle-xmark"></i></button>
                     </div>
+                </li>
+                {% endfor %}
+                    
+            </ul>
+            <ul id="friend_list_list" class="extra-list__list">
+                
+                {% for friend in user_friend_list %}
+                <li class="extra-list__item" >
+                    <img src="{{ friend.profile_image.url }}" alt="" class="extra-list__item-img">
+                    <h4 class="extra-list__item-username">{{ friend.username }}</h4>
                 </li>
                 {% endfor %}
                     

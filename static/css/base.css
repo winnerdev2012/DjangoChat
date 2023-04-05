@@ -173,6 +173,11 @@ html {
     flex-direction: column;
     align-items: flex-start;
     margin-left: 12px;
+    cursor: pointer;
+}
+
+.header__navbar-profile:hover {
+    opacity: 0.8;
 }
 
 .header__navbar-profile-avatar{
@@ -197,6 +202,57 @@ html {
     color: lightgreen;
     font-weight: 300;
     font-size: 1.1rem;
+}
+
+.user-menu {
+    position: absolute;
+    top: var(--header-height);
+    margin: 4px;
+    display: none;
+    flex-flow: column nowrap;
+    background-color: var(--card-color);
+    /* padding: 8px; */
+    /* width: 100%; */
+    right: 0;
+    border-radius: 8px;
+}
+
+.user-item {
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--text-b-color);
+    padding: 8px 16px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    transition: ease 0.3s;
+}
+
+.user-item:hover {
+    background-color: var(--hover-color);
+    color: var(--white-color);
+}
+
+.user-item__icon {
+
+}
+
+.user-item__text {
+    margin-left: 8px;
+}
+
+.user-item--top {
+    border-radius: 8px 8px 0 0;
+}
+
+.user-item--bot {
+    border-radius: 0px 0px 8px 8px;
+}
+
+.user-item--center {
+    border-top: 1px solid var(--text-color);
+    border-bottom: 1px solid var(--text-color);
 }
 
 /* ANIMATION */
@@ -280,21 +336,23 @@ html {
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    background-color: var(--active-color);
 }
 
 .btn--icon-text {
     margin-left: 10px;
-    color: gray;
+    color: var(--white-color);
 }
 
 .btn--icon-img {
     width: 20px;
+    color: var(--white-color);
 }
 
 .btn-send {
     font-size: 2rem;
     border: none;
-    color: #cdb4db;
+    color: var(--main-chat-color);
     padding: 4px;
     border-radius: 50%;
 }

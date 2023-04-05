@@ -28,12 +28,16 @@ class UserProfileView(UserBaseView):
         RELATIONSHIP = 1
         try:
             user_auth_friend_list, created = FriendList.objects.get_or_create(user=request.user)
-            user_auth_request_list = RequestFriend.objects.filter(receiver=request.user, is_active=True)
+            
+            user_request_list = None
             # user_auth_request_list = RequestFriend.objects.all()
             
             user_profile = CustomUser.objects.get(pk=user_id) # this user in profile page
+            user_profile_friend_list, created = FriendList.objects.get_or_create(user=user_profile) 
             if request.user.id == user_id:
                 RELATIONSHIP = 0
+                user_profile_friend_list = user_auth_friend_list
+                user_request_list = RequestFriend.objects.filter(receiver=request.user, is_active=True)
             elif user_auth_friend_list.is_mutual_friend(user_profile):
                 RELATIONSHIP = 1
             else:
@@ -41,8 +45,8 @@ class UserProfileView(UserBaseView):
             context = {
                 'user_profile': user_profile,
                 'RELATIONSHIP': RELATIONSHIP,
-                'user_auth_friend_list': user_auth_friend_list.friends.all(),
-                'user_auth_request_list': user_auth_request_list,
+                'user_friend_list': user_profile_friend_list.friends.all(),
+                'user_request_list': user_request_list,
             }
             
             return render(request, 'accounts/profile.html', context)

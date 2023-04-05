@@ -7,15 +7,23 @@ $(function() {
     var friend_list_btn = document.getElementById("friend_list_btn");
     var request_list_btn = document.getElementById("request_list_btn");
 
+    var friend_list_content = document.getElementById("friend_list_list");
+    var request_list_content = document.getElementById("friend_request_list");
+
     var accept_btn = document.getElementById("accept_btn");
     var decline_btn = document.getElementById("decline_btn");
 
     // Lấy phần span đóng Modal
     var close_list_btn = document.getElementById("close_list_btn");
+    var extra_list_title = document.getElementById("extra-list__title");
 
     // Khi button được click thi mở Modal
-    request_list_btn.onclick = function() {
+
+    friend_list_btn.onclick = function() {
         modal.style.display = "flex";
+        friend_list_content.style.display = "flex";
+        request_list_content.style.display = "none";
+        extra_list_title.innerHTML = "Friends List"
     }
 
     // Khi span được click thì đóng Modal
@@ -67,7 +75,12 @@ $(function() {
     //         }
     //     })
     // })
-
+    request_list_btn.onclick = function() {
+        modal.style.display = "flex";
+        friend_list_content.style.display = "none";
+        request_list_content.style.display = "flex";
+        extra_list_title.innerHTML = "Request List"
+    }
  });
 
 
